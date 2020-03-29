@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        html{
+            height: 100%;
+            font-size: 10px;
+            background-image: linear-gradient(to bottom right, #fdd7d8, #d2f6ff);
+        }
+    </style>
+    <link type="text/css" href="./main.css" rel="stylesheet">
+
+    
+</head>
+<body>
+    <div class="music">
+        <div class="search-bar">
+            <p class="title">音乐</p>
+            <div class="search">
+                <input v-model="searchText" @keyup.enter="searchMusic" placeholder="歌曲名称/歌手名称" type="text">
+                <img @click="searchMusic" src="./imgs/search.png">
+            </div>
+
+        </div>
+        <div class="main-menu">
+            <div  class="music-list">
+                <ul >
+                    <li  v-for="(song,idx) in musicList" class="song-item">
+                        <img @click="playMusic(song.id,song.album.id)"   src="./imgs/start.png">
+                        &emsp;{{song.name}} - {{song.artists[0].name}}</li>
+                </ul>
+            </div>
+            <div class="album-photo">
+                <img src="./imgs/disc.png" alt="碟" class="disc">
+                <img :src="musicCover" alt="封面" class="cover">
+                
+
+            </div>
+            <div class="comments">
+                <p class="comment-title">热门评论</p>
+                <ul>
+                    <li class="comment" v-for="comment in hotComments">
+                        {{comment.content}}
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="control-bar">
+            <audio controlsList="nodownload" controls="controls" autoplay="autoplay" loop="loop" :src="musicURL" class="audio-bar"></audio>
+
+        </div>
+    </div>
+    
+
+
+    <script>
+        var music = new Vue({
+            el:".music",
+            data:{
+                searchText:"",
+                musicList:[
+            {
+                "id": 1433060985,
+                "name": "晚安吧，太阳",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 86740844,
+                    "name": "晚安吧，太阳",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1584979200000,
+                    "size": 2,
+                    "copyrightId": -1,
+                    "status": 0,
+                    "picId": 109951164833809100,
+                    "alia": [
+                        "影视剧《不完美的她》推广曲"
+                    ],
+                    "mark": 0
+                },
+                "duration": 324860,
+                "copyrightId": 1416734,
+                "status": 0,
+                "alias": [
+                    "影视剧《不完美的她》推广曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 8192
+            },
+            {
+                "id": 28285910,
+                "name": "岁月神偷",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 2767540,
+                    "name": "金玟岐作品集",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1393776000007,
+                    "size": 13,
+                    "copyrightId": 0,
+                    "status": 0,
+                    "picId": 5998935441219557,
+                    "mark": 0
+                },
+                "duration": 162072,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 5917771,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 64
+            },
+            {
+                "id": 28892385,
+                "name": "最初的梦想",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 2923011,
+                    "name": "热门华语233",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1388505600004,
+                    "size": 189,
+                    "copyrightId": 0,
+                    "status": 2,
+                    "picId": 3383197279803331,
+                    "mark": 0
+                },
+                "duration": 169000,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 524288
+            },
+            {
+                "id": 28285912,
+                "name": "爱呀",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 2767540,
+                    "name": "金玟岐作品集",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1393776000007,
+                    "size": 13,
+                    "copyrightId": 0,
+                    "status": 0,
+                    "picId": 5998935441219557,
+                    "mark": 0
+                },
+                "duration": 252648,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 64
+            },
+            {
+                "id": 520277152,
+                "name": "姗姗",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 36813160,
+                    "name": "大七电台",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1511366400007,
+                    "size": 10,
+                    "copyrightId": 576018,
+                    "status": 0,
+                    "picId": 109951163064544590,
+                    "mark": 0
+                },
+                "duration": 243199,
+                "copyrightId": 576018,
+                "status": 0,
+                "alias": [
+                    "Shanshan"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 5678912,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 513357062,
+                "name": "腻味",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 36813160,
+                    "name": "大七电台",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1511366400007,
+                    "size": 10,
+                    "copyrightId": 576018,
+                    "status": 0,
+                    "picId": 109951163064544590,
+                    "mark": 0
+                },
+                "duration": 248013,
+                "copyrightId": 576018,
+                "status": 0,
+                "alias": [
+                    "Fed Up"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 29095462,
+                "name": "好久不见",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 2982254,
+                    "name": "热门华语238",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1388505600004,
+                    "size": 62,
+                    "copyrightId": 0,
+                    "status": 2,
+                    "picId": 3295236350128132,
+                    "mark": 0
+                },
+                "duration": 157000,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 524288
+            },
+            {
+                "id": 1386737233,
+                "name": "新娘阿花",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 81161964,
+                    "name": "新娘阿花",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1437408000000,
+                    "size": 0,
+                    "copyrightId": 22036,
+                    "status": 1,
+                    "picId": 109951164323910260,
+                    "mark": 0
+                },
+                "duration": 253601,
+                "copyrightId": 22036,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 473740555,
+                "name": "思美人兮",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 35423146,
+                    "name": "思美人兮",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1492704000007,
+                    "size": 1,
+                    "copyrightId": 499012,
+                    "status": 0,
+                    "picId": 18876415625748788,
+                    "alia": [
+                        "电视剧《思美人》插曲"
+                    ],
+                    "mark": 0
+                },
+                "duration": 274894,
+                "copyrightId": 499012,
+                "status": 0,
+                "alias": [
+                    "电视剧《思美人》插曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 411988502,
+                "name": "山丘 （Cover 李宗盛）",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 3460209,
+                    "name": "金玟岐翻唱作品集",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1455934227984,
+                    "size": 3,
+                    "copyrightId": 0,
+                    "status": 1,
+                    "picId": 3250156382031364,
+                    "mark": 0
+                },
+                "duration": 333696,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 1372300064,
+                "name": "憾",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 79829721,
+                    "name": "憾",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1561132800000,
+                    "size": 2,
+                    "copyrightId": 1372820,
+                    "status": 0,
+                    "picId": 109951164156404600,
+                    "mark": 0
+                },
+                "duration": 246457,
+                "copyrightId": 1372820,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 28692862,
+                "name": "才华有限公司",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 2767540,
+                    "name": "金玟岐作品集",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1393776000007,
+                    "size": 13,
+                    "copyrightId": 0,
+                    "status": 0,
+                    "picId": 5998935441219557,
+                    "mark": 0
+                },
+                "duration": 265224,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 64
+            },
+            {
+                "id": 1413183374,
+                "name": "因为宠爱",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 84624144,
+                    "name": "因为宠爱",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1577721600000,
+                    "size": 1,
+                    "copyrightId": 429014,
+                    "status": 0,
+                    "picId": 109951164591747730,
+                    "alia": [
+                        "电影《宠爱》推广曲"
+                    ],
+                    "mark": 0
+                },
+                "duration": 237095,
+                "copyrightId": 429014,
+                "status": 0,
+                "alias": [
+                    "电影《宠爱》推广曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 10908577,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 29414156,
+                "name": "我们到最后终于变成朋友",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 3017439,
+                    "name": "热门华语241",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1388505600004,
+                    "size": 54,
+                    "copyrightId": 0,
+                    "status": 2,
+                    "picId": 109951163926965900,
+                    "mark": 0
+                },
+                "duration": 231000,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 524288
+            },
+            {
+                "id": 28949210,
+                "name": "董小姐",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 2947002,
+                    "name": "热门华语235",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1388505600004,
+                    "size": 91,
+                    "copyrightId": 0,
+                    "status": 2,
+                    "picId": 3409585558713986,
+                    "mark": 0
+                },
+                "duration": 277000,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 524288
+            },
+            {
+                "id": 41665696,
+                "name": "小幸运（Cover 田馥甄）",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 3460209,
+                    "name": "金玟岐翻唱作品集",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1455934227984,
+                    "size": 3,
+                    "copyrightId": 0,
+                    "status": 1,
+                    "picId": 3250156382031364,
+                    "mark": 0
+                },
+                "duration": 241560,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 507532084,
+                "name": "偶像",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 36813160,
+                    "name": "大七电台",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1511366400007,
+                    "size": 10,
+                    "copyrightId": 576018,
+                    "status": 0,
+                    "picId": 109951163064544590,
+                    "mark": 0
+                },
+                "duration": 250746,
+                "copyrightId": 576018,
+                "status": 0,
+                "alias": [
+                    "Idol"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 5619772,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 424477212,
+                "name": "孩子 ",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 34808354,
+                    "name": "孩子",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1470672000007,
+                    "size": 1,
+                    "copyrightId": 429014,
+                    "status": 0,
+                    "picId": 3445869449593563,
+                    "alia": [
+                        "电影《海洋之歌》推广曲"
+                    ],
+                    "mark": 0
+                },
+                "duration": 262260,
+                "copyrightId": 429014,
+                "status": 0,
+                "alias": [
+                    "电影《海洋之歌》推广曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 5350070,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 64
+            },
+            {
+                "id": 547973104,
+                "name": "这样的你",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 38047028,
+                    "name": "这样的你",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1522080000007,
+                    "size": 1,
+                    "copyrightId": 398013,
+                    "status": 0,
+                    "picId": 109951163209236750,
+                    "alia": [
+                        "综艺《送一百位女孩回家》主题曲"
+                    ],
+                    "mark": 0
+                },
+                "duration": 260426,
+                "copyrightId": 398013,
+                "status": 0,
+                "alias": [
+                    "综艺《送一百位女孩回家》主题曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 5917745,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 513356063,
+                "name": "娱乐",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 36813160,
+                    "name": "大七电台",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1511366400007,
+                    "size": 10,
+                    "copyrightId": 576018,
+                    "status": 0,
+                    "picId": 109951163064544590,
+                    "mark": 0
+                },
+                "duration": 282453,
+                "copyrightId": 576018,
+                "status": 0,
+                "alias": [
+                    "Entertainment"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 1417509473,
+                "name": "如梦",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 85063105,
+                    "name": "如梦",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1579449600000,
+                    "size": 0,
+                    "copyrightId": 429014,
+                    "status": 0,
+                    "picId": 109951164636049330,
+                    "alia": [
+                        "电视剧《热血同行》片尾曲"
+                    ],
+                    "mark": 0
+                },
+                "duration": 273494,
+                "copyrightId": 429014,
+                "status": 0,
+                "alias": [
+                    "电视剧《热血同行》片尾曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 28285911,
+                "name": "装修",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    {
+                        "id": 2519,
+                        "name": "董运昌",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 2767540,
+                    "name": "金玟岐作品集",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1393776000007,
+                    "size": 13,
+                    "copyrightId": 0,
+                    "status": 0,
+                    "picId": 5998935441219557,
+                    "mark": 0
+                },
+                "duration": 314328,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 64
+            },
+            {
+                "id": 513357063,
+                "name": "天梯",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 36813160,
+                    "name": "大七电台",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1511366400007,
+                    "size": 10,
+                    "copyrightId": 576018,
+                    "status": 0,
+                    "picId": 109951163064544590,
+                    "mark": 0
+                },
+                "duration": 251960,
+                "copyrightId": 576018,
+                "status": 0,
+                "alias": [
+                    "High Ladder"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 1336088200,
+                "name": "幕后大咖",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 74999382,
+                    "name": "幕后之王 电视原声音乐专辑",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1546617600000,
+                    "size": 14,
+                    "copyrightId": 1415997,
+                    "status": 0,
+                    "picId": 109951163754790240,
+                    "mark": 0
+                },
+                "duration": 206253,
+                "copyrightId": 1415997,
+                "status": 0,
+                "alias": [
+                    "电视剧《幕后之王》插曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 8192
+            },
+            {
+                "id": 515796410,
+                "name": "沙发",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 36813160,
+                    "name": "大七电台",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1511366400007,
+                    "size": 10,
+                    "copyrightId": 576018,
+                    "status": 0,
+                    "picId": 109951163064544590,
+                    "mark": 0
+                },
+                "duration": 242146,
+                "copyrightId": 576018,
+                "status": 0,
+                "alias": [
+                    "Sofa"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 1425312449,
+                "name": "原谅我年少不懂言语",
+                "artists": [
+                    {
+                        "id": 3415,
+                        "name": "霍尊",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 85934034,
+                    "name": "电视剧《北灵少年志之大主宰》影视原声带·心境篇",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1582387200000,
+                    "size": 3,
+                    "copyrightId": 1416401,
+                    "status": 0,
+                    "picId": 109951164732122340,
+                    "mark": 0
+                },
+                "duration": 250112,
+                "copyrightId": 1416401,
+                "status": 0,
+                "alias": [
+                    "电视剧《北灵少年志之大主宰》片尾曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 262144
+            },
+            {
+                "id": 542690139,
+                "name": "姗姗",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 37829038,
+                    "name": "硬地围炉夜2017网易云音乐原创盛典",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1519833600007,
+                    "size": 23,
+                    "copyrightId": 0,
+                    "status": 0,
+                    "picId": 109951163170852260,
+                    "mark": 0
+                },
+                "duration": 245479,
+                "copyrightId": 0,
+                "status": 0,
+                "alias": [],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 1336864980,
+                "name": "勇敢者的告别",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 75602414,
+                    "name": "勇敢者的告别",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1550419200000,
+                    "size": 1,
+                    "copyrightId": -1,
+                    "status": -1,
+                    "picId": 109951163870339100,
+                    "mark": 0
+                },
+                "duration": 247581,
+                "copyrightId": 1416303,
+                "status": 0,
+                "alias": [
+                    "电影《朝花夕誓》宣传推广曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 8,
+                "rUrl": null,
+                "mark": 65536
+            },
+            {
+                "id": 522510290,
+                "name": "爱即正义ll",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    {
+                        "id": 12359437,
+                        "name": "李常超 (Lao乾妈)",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 36911080,
+                    "name": "爱即正义ll",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1512576000007,
+                    "size": 3,
+                    "copyrightId": 393011,
+                    "status": 0,
+                    "picId": 109951163077809470,
+                    "alia": [
+                        "网易游戏2017年度盛典主题曲"
+                    ],
+                    "mark": 0
+                },
+                "duration": 266040,
+                "copyrightId": 393011,
+                "status": 0,
+                "alias": [
+                    "网易游戏2017年度盛典主题曲"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 0
+            },
+            {
+                "id": 1363896373,
+                "name": "别再说你不在状态",
+                "artists": [
+                    {
+                        "id": 893259,
+                        "name": "金玟岐",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    }
+                ],
+                "album": {
+                    "id": 78989173,
+                    "name": "别再说你不在状态",
+                    "artist": {
+                        "id": 0,
+                        "name": "",
+                        "picUrl": null,
+                        "alias": [],
+                        "albumSize": 0,
+                        "picId": 0,
+                        "img1v1Url": "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "img1v1": 0,
+                        "trans": null
+                    },
+                    "publishTime": 1557244800000,
+                    "size": 0,
+                    "copyrightId": 429014,
+                    "status": 0,
+                    "picId": 109951164058433040,
+                    "alia": [
+                        "脉动回来BGM"
+                    ],
+                    "mark": 0
+                },
+                "duration": 208810,
+                "copyrightId": 429014,
+                "status": 0,
+                "alias": [
+                    "脉动回来BGM"
+                ],
+                "rtype": 0,
+                "ftype": 0,
+                "mvid": 0,
+                "fee": 0,
+                "rUrl": null,
+                "mark": 0
+            }
+        ],
+                musicCover:'./imgs/test.jpg',
+                musicURL:'',
+                hotComments:[{content:"aaaa"},{content:"aaaa"},{content:"aaaa"}],
+            
+            },
+            methods:{
+                searchMusic:function(){
+                    console.log(this.searchText);
+                    if(this.searchText!=""){
+                        axios.post("https://autumnfish.cn/search?keywords="+this.searchText)
+                        .then(res => {
+                            console.log(res)
+                            if(res.data.code == 200){
+                                console.log(res.data.result);
+                                this.musicList = res.data.result.songs;
+                                console.log(this.musicList)
+                            }else{
+                                console.log("请求失败")
+                                this.musicList = "请求失败！"
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err); 
+                        })
+                    }
+                },
+                playMusic:function(musicID,albumID){
+                    console.log(musicID)
+                    console.log(albumID)
+                    // 通过albumID查询歌曲封面
+                    axios.get("https://autumnfish.cn/album?id="+albumID)
+                    .then(res => {
+                        console.log(res)
+                        for(let i=0;i<res.data.songs.length;i++){
+                            if(res.data.songs[i].privilege.id == musicID){
+                                this.musicCover = res.data.songs[i].al.picUrl;
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err); 
+                    })
+                    // 根据接口判断音乐是否可用,可用则播放
+                    axios.get("https://autumnfish.cn/check/music?id="+musicID)
+                    .then(res => {
+                        console.log(res)
+                        if(res.data.success!=true){
+                            this.musicList = "音乐暂不可用"
+                        }else{
+                            axios.get("https://autumnfish.cn/song/url?id="+musicID)
+                            .then(res => {
+                                console.log("music id:",res)
+                                this.musicURL = (res.data.data[0].url != null)?res.data.data[0].url:"";
+                                console.log("musicurl:",this.musicURL)
+                            })
+                            .catch(err => {
+                                console.error(err); 
+                            });
+                            
+                            axios.get("https://autumnfish.cn/comment/music?limit=1&id="+musicID)
+                            .then(res => {
+                                console.log('热评: ',res)
+                                this.hotComments = res.data.hotComments;
+                            })
+                            .catch(err => {
+                                console.error(err); 
+                            })
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err); 
+                    })
+
+                },
+            }
+        })
+
+        
+        
+    </script>
+
+    <!-- <script  type="module">
+        import {api} from './api.js'
+        console.log(axios)
+        console.log(api)
+        api.clog();
+    </script> -->
+
+
+
+</body>
+</html>
