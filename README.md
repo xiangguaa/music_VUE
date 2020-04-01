@@ -3,5 +3,4 @@
 ##### 最终效果:
 
 
-
-![image-20200329231101547](../../source/imgs/README/image-20200329231101547.png)
+![](https://raw.githubusercontent.com/xiangguaa/FigsBed/master/imgs/music_VUE.png)
