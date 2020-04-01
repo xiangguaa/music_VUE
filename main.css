@@ -1,187 +1,427 @@
 html,body,ul,li,ol,p,h1,h2,h3,h4,h5,h6,form,img,div{margin:0;padding:0;}
-.music{
-    width: 100rem;
-    height: 50rem;
-    background-color: #da694d;
-    margin: 4rem auto 0;
-    border-radius: 0.5rem;
-}
-.search-bar{
-    width: 100rem;
-    height: 5rem;
-    background-color: #11a2de;
-    display: flex;
-    justify-content: space-between;
-    border-radius: 0.5rem 0.5rem 0 0;
-    align-items: center;
-}
-.title{
-    font-family: Tahoma,Arial,"宋体";
-    line-height: 5rem;
-    height: 5rem;
-    margin: 0em;
-    margin-left: 0.75em;
-    font-size: 2em;
-    color: white;
-
-}
-.search{
-    background-color: #7ccbeb;
-    width: 40rem;
-    height: 3rem;
-    line-height: 3rem;
-    margin-right: 3rem;
-    border-radius: 5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-}
-.search input{
-    height: 2.7rem;
-    padding: 0rem;
-    width: 37rem;
-    background-color: #7ccbeb;
-    margin-left: 1rem;
-    border-radius: 5rem;
-    outline: none;
-    border: none;
-    text-indent: 1rem;
-}
-.search img{
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 1rem;
-}
-
-/* main menu */
-.main-menu{
-    width: 100rem;
-    height: 41rem;
-    background-color: #e7e7ea;
-    display: flex;
-    justify-content: start;
-}
 
 
-.music-list{
-    width: 25rem;
-    /* height: 41rem; */
-    height: inherit;
-    background-color: cyan;
-    /* overflow: scroll; */
-    overflow-x: auto;
-}
-.music-list::-webkit-scrollbar{      display:none    }
 
-.music-list ul{
-    background-color: rgb(126, 57, 103);
-    /* width: inherit; */
-    width: 30rem;
+
+@media screen and (min-width: 500px) {
+    .music{
+        width: 100rem;
+        height: 50rem;
+        background-color: #da694d;
+        margin: 4rem auto 0;
+        border-radius: 0.5rem;
+    }
+    .search-bar{
+        width: 100rem;
+        height: 5rem;
+        background-color: #11a2de;
+        display: flex;
+        justify-content: space-between;
+        border-radius: 0.5rem 0.5rem 0 0;
+        align-items: center;
+    }
+    .title{
+        font-family: Tahoma,Arial,"宋体";
+        line-height: 5rem;
+        height: 5rem;
+        margin: 0em;
+        margin-left: 0.75em;
+        font-size: 2em;
+        color: white;
+    
+    }
+    .search{
+        background-color: #7ccbeb;
+        width: 40rem;
+        height: 3rem;
+        line-height: 3rem;
+        margin-right: 3rem;
+        border-radius: 5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    
+    }
+    .search input{
+        height: 2.7rem;
+        padding: 0rem;
+        width: 37rem;
+        background-color: #7ccbeb;
+        margin-left: 1rem;
+        border-radius: 5rem;
+        outline: none;
+        border: none;
+        text-indent: 1rem;
+    }
+    .search img{
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 1rem;
+    }
+    
+    /* main menu */
+    .main-menu{
+        width: 100rem;
+        height: 41rem;
+        background-color: #e7e7ea;
+        display: flex;
+        justify-content: start;
+    }
+    
+    
+    .music-list{
+        width: 25rem;
+        /* height: 41rem; */
+        height: inherit;
+        background-color: cyan;
+        /* overflow: scroll; */
+        overflow-x: auto;
+    }
+    .music-list::-webkit-scrollbar{      display:none    }
+    
+    .music-list ul{
+        background-color: rgb(126, 57, 103);
+        /* width: inherit; */
+        width: 30rem;
+    }
+    
+    .song-item{
+        padding-left: 1rem;
+        height: 3rem;
+        background-color: lightblue;
+        list-style-type: none;
+        /* padding: 0rem; */
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
+    .song-item:nth-child(2n+1){
+        background-color: #dddde1;
+    }
+    .song-item:nth-child(2n){
+        background-color: #f3f3f5;
+    }
+    
+    .song-item img{
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    
+    .album-photo{
+        width: 50rem;
+        /* height: 41rem; */
+        height: 41rem;
+        /* background-color: #9d9691; */
+        background: linear-gradient(to bottom right, #f3f3f5, #dddde1);
+        display:flex;
+        align-items: center;
+        /* text-align: center; */
+        justify-content: center;
+    }
+
+    .turn{
+
+        animation:turn 3s linear infinite;      
+
+      }
+      /* 
+        turn : 定义的动画名称
+        1s : 动画时间
+        linear : 动画以何种运行轨迹完成一个周期
+        infinite :规定动画应该无限次播放
+       */
+      @keyframes turn{
+        0%{-webkit-transform:rotate(0deg);}
+        25%{-webkit-transform:rotate(90deg);}
+        50%{-webkit-transform:rotate(180deg);}
+        75%{-webkit-transform:rotate(270deg);}
+        100%{-webkit-transform:rotate(360deg);}
+      }
+
+    .disc{
+        /* margin:auto 0; */
+        vertical-align: middle;
+        z-index: 100;
+    }
+    
+    .cover{
+        z-index: 10;
+        width: 15rem;
+        height: 15rem;
+        position: absolute;
+    
+    }
+    
+    .comments{
+        width: 25rem;
+        height: inherit;
+        /* background-color: magenta; */
+    }
+    .comment-title{
+        background-color: #e7e7ea;
+        width: 23.9rem;
+        font-family: Tahoma,Arial,"宋体";
+        line-height: 4rem;
+        height: 4rem;
+        padding: 0rem;
+        margin: 0rem;
+        padding-left: 0.75em;
+        font-size: 1.5rem;
+        color: black;
+        box-shadow:0rem 0.5rem 0.5rem -0.7rem black;  
+    }
+    .comments ul{
+        background-color: #e7e7ea;
+        width: inherit;
+        margin-top: 0.5rem;
+        height: 36rem;
+        overflow: auto;
+    }
+    .comments ul::-webkit-scrollbar{      display:none    }
+    
+    .comment{
+        list-style-type: none;
+        margin-bottom: 1rem;
+        background-color: #d1d1d1;
+        padding: 0.5rem;
+        font-size: 1.1rem;
+        border: rgb(214, 177, 231) solid 0.05rem;
+        margin: 1rem;
+        border-radius: 0.3rem;
+    
+    }
+    
+    /* 控制条 */
+    .control-bar{
+        width: 100rem;
+        height: 4rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #f1f3f4;
+    
+    }
+    .audio-bar{
+        width: 100rem;
+        height: 4rem;
+        border-radius: 0rem;
+        outline: none;
+        /* background-color: lightslategrey; */
+    }
+    
 }
 
-.song-item{
-    padding-left: 1rem;
-    height: 3rem;
-    background-color: lightblue;
-    list-style-type: none;
-    /* padding: 0rem; */
-    display: flex;
-    justify-content: start;
-    align-items: center;
-}
-.song-item:nth-child(2n+1){
-    background-color: #dddde1;
-}
-.song-item:nth-child(2n){
-    background-color: #f3f3f5;
-}
 
-.song-item img{
-    width: 1.5rem;
-    height: 1.5rem;
-}
+@media screen and (max-width: 500px) {
+    .turn{
 
-.album-photo{
-    width: 50rem;
-    /* height: 41rem; */
-    height: inherit;
-    /* background-color: #9d9691; */
-    background: linear-gradient(to bottom right, #f3f3f5, #dddde1);
-    display:flex;
-    align-items: center;
-    /* text-align: center; */
-    justify-content: center;
+        animation:turn 3s linear infinite;      
 
-}
-.disc{
-    /* margin:auto 0; */
-    vertical-align: middle;
-    z-index: 100;
-}
+      }
+      /* 
+        turn : 定义的动画名称
+        1s : 动画时间
+        linear : 动画以何种运行轨迹完成一个周期
+        infinite :规定动画应该无限次播放
+       */
+      @keyframes turn{
+        0%{-webkit-transform:rotate(0deg);}
+        25%{-webkit-transform:rotate(90deg);}
+        50%{-webkit-transform:rotate(180deg);}
+        75%{-webkit-transform:rotate(270deg);}
+        100%{-webkit-transform:rotate(360deg);}
+      }
+    .music{
+        width: 30rem;
+        height: 60rem;
+        background-color: #da694d;
+        margin: 4rem auto 0;
+        border-radius: 0.5rem;
+        position: relative;
+    }
+    .search-bar{
+        width: 30rem;
+        height: 5rem;
+        /* background-color: blueviolet; */
+        background-color: #11a2de;
+        /* position: relative; */
+        position: absolute;
+        bottom: 0rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .title{
+        font-family: Tahoma,Arial,"宋体";
+        line-height: 5rem;
+        height: 5rem;
+        margin: 0em;
+        margin-left: 0.75em;
+        font-size: 2em;
+        color: white;
+    
+    }
+    .search{
+        background-color: #7ccbeb;
+        width: 20rem;
+        height: 3rem;
+        line-height: 3rem;
+        margin-right: 3rem;
+        border-radius: 5rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0rem;
+      
+    
+    }
+    .search input{
+        height: 2.7rem;
+        padding: 0rem;
+        width: 37rem;
+        background-color: #7ccbeb;
+        margin-left: 1rem;
+        border-radius: 5rem;
+        outline: none;
+        border: none;
+        text-indent: 1rem;
+        
+      
+    }
+    .search img{
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 1rem;
+      
+    }
+    
+    /* main menu */
+    .main-menu{
+        width: 30rem;
+        height: 35rem;
+        /* background-color: cornsilk; */
+        position: absolute;
+        bottom: 5rem;
+        background-color: #e7e7ea;
+        display: flex;
+        justify-content: start;
+     
+    }
+    
+    
+    .music-list{
+        width: 30rem;
+        /* height: 41rem; */
+        height: inherit;
+        background-color: cyan;
+        /* overflow: scroll; */
+        overflow-x: auto;
 
-.cover{
-    z-index: 10;
-    width: 15rem;
-    height: 15rem;
-    position: absolute;
+    }
+    .music-list::-webkit-scrollbar{      display:none    }
+    
+    .music-list ul{
+        background-color: rgb(126, 57, 103);
+        /* width: inherit; */
+        width: 30rem;
+     
+    }
+    
+    .song-item{
+        padding-left: 1rem;
+        height: 3rem;
+        
+        list-style-type: none;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+      
+    }
+    .song-item:nth-child(2n+1){
+        background-color: #dddde1;
+    }
+    .song-item:nth-child(2n){
+        background-color: #f3f3f5;
+    }
+    
+    .song-item img{
+      
+    }
+    
+    .album-photo{
+        /* display: none; */
 
-}
+        position: absolute;
+        bottom: 35rem;
+        width: 30rem;
+        height: 15rem;
+        /* background-color: crimson; */
+        background: linear-gradient(to bottom right, #f3f3f5, #dddde1);
+        display:flex;
+        /* float: left; */
+        flex-direction: column-reverse;
+        align-items: center;
+        /* text-align: center; */
+        justify-content: start;
+        
 
-.comments{
-    width: 25rem;
-    height: inherit;
-    /* background-color: magenta; */
-}
-.comment-title{
-    background-color: #e7e7ea;
-    width: 23.9rem;
-    font-family: Tahoma,Arial,"宋体";
-    line-height: 4rem;
-    height: 4rem;
-    padding: 0rem;
-    margin: 0rem;
-    padding-left: 0.75em;
-    font-size: 1.5rem;
-    color: black;
-    box-shadow:0rem 0.5rem 0.5rem -0.7rem black;  
-}
-.comments ul{
-    background-color: #e7e7ea;
-    width: inherit;
-    margin-top: 0.5rem;
-    height: 36rem;
-    overflow: auto;
-}
-.comments ul::-webkit-scrollbar{      display:none    }
+    }
+    .disc{
+        /* display: none; */
+        width: 13rem;
+        height: 13rem;
+        padding-bottom: 1rem;
+        z-index: 100;
+    
+    }
+    
+    .cover{
+        /* display: none; */
+        z-index: 10;
+        width:8.6rem;
+        height: 8.6rem;
+        padding-bottom: 2.7rem;
+        position: absolute;
 
-.comment{
-    list-style-type: none;
-    margin-bottom: 1rem;
-    background-color: #d1d1d1;
-    padding: 0.5rem;
-    font-size: 1.1rem;
-    border: rgb(214, 177, 231) solid 0.05rem;
-    margin: 1rem;
-    border-radius: 0.3rem;
+    
+    }
+    
+    .comments{
+        display: none;
 
+    }
+    .comment-title{
+    
+    }
+    .comments ul{
+     
+    }
+    .comments ul::-webkit-scrollbar{      display:none    }
+    
+    .comment{
+    
+    
+    }
+    
+    /* 控制条 */
+    .control-bar{
+        background-color: #f1f3f4;
+        z-index: 1000;
+        width: 30rem;
+        height: 5.1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    
+    
+    }
+    .audio-bar{
+        outline: none;
+        border-radius: 0rem;
+        width: 30rem;
+        height: 4rem;
+
+    }
+    
 }
-
-/* 控制条 */
-.control-bar{
-    width: 100rem;
-    height: 4rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #f1f3f4;
-
-}
-.audio-bar{
-    width: 100rem;
-    height: 4rem;
-    border-radius: 0rem;
-    outline: none;
-    /* background-color: lightslategrey; */
-}
-

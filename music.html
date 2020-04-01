@@ -37,10 +37,8 @@
                 </ul>
             </div>
             <div class="album-photo">
-                <img src="./imgs/disc.png" alt="碟" class="disc">
-                <img :src="musicCover" alt="封面" class="cover">
-                
-
+                <img src="./imgs/disc.png" alt="碟":class="[isPlaying?'disc turn':'disc']" >
+                <img :src="musicCover" alt="封面" :class="[isPlaying?'cover turn':'cover']">
             </div>
             <div class="comments">
                 <p class="comment-title">热门评论</p>
@@ -53,7 +51,7 @@
 
         </div>
         <div class="control-bar">
-            <audio controlsList="nodownload" controls="controls" autoplay="autoplay" loop="loop" :src="musicURL" class="audio-bar"></audio>
+            <audio @play="play" @pause="pause" controlsList="nodownload" controls="controls" autoplay="autoplay" loop="loop" :src="musicURL" class="audio-bar"></audio>
 
         </div>
     </div>
@@ -1600,8 +1598,10 @@
         ],
                 musicCover:'./imgs/test.jpg',
                 musicURL:'',
-                hotComments:[{content:"aaaa"},{content:"aaaa"},{content:"aaaa"}],
-            
+                // hotComments:[{content:"aaaa"},{content:"aaaa"},{content:"aaaa"}],
+                hotComments:[{content:"本页面为学习测试使用，请勿滥用。"},{content:"源代码请访问Github主页"},{content:"https://github.com/xiangguaa"},{content:"φ(*￣0￣)"}],
+                isPlaying:false,
+
             },
             methods:{
                 searchMusic:function(){
@@ -1671,6 +1671,14 @@
                         console.error(err); 
                     })
 
+                },
+                play:function(){
+                    console.log("paly");
+                    this.isPlaying = true;
+                },
+                pause:function(){
+                    console.log('pause');
+                    this.isPlaying = false;
                 },
             }
         })
